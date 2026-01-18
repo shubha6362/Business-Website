@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Material Distribution</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+</head>
+
+<body>
+    <section id="header">
+        <a href="#"><img src="/images/image copy.png" class="logo imgstyle" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="contact.html">Contact</a></li>
+
+
+                <li><a class="active" href="cart.html"><img src="images/image.png" class="imgstyle1" alt=""></a></li>
+
+            </ul>
+        </div>
+    </section>
+
+    <section id="contacthero">
+        <div class="heroleft">
+
+            <h2> #Let's_talk</h2>
+            <p>LEAVE A MESSAGE, We love to hear from you!</p>
+
+    </section>
+
+    <section class="cart-section">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <h3 id="cart-total"></h3>
+    </section>
+
+
+    <footer class="footer">
+        <div class="footer-container">
+
+            <!-- Brand & Contact -->
+            <div class="footer-col">
+                <h2 class="logo">YourBrand</h2>
+                <p><strong>Address:</strong> Garudacharpalya, Mahadevapura, Banglore-560048</p>
+                <p><strong>Phone:</strong> / (+91) 62345 6789</p>
+                <p><strong>Hours:</strong> 7:00 - 18:00, Mon - Sat</p>
+            </div>
+
+            <!-- About -->
+            <div class="footer-col">
+                <h3>About</h3>
+                <a href="#">About Us</a>
+                <a href="#">Delivery Information</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Contact Us</a>
+            </div>
+
+            <!-- My Account -->
+            <div class="footer-col">
+                <h3>My Account</h3>
+                <a href="#">Sign In</a>
+                <a href="#">View Cart</a>
+                <a href="#">My Wishlist</a>
+                <a href="#">Track My Order</a>
+                <a href="#">Help</a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 YourBrand. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        //here we are accessing the cart-items and cart-total elements we created in html
+        const cartItemsContainer = document.getElementById("cart-items");
+        const cartTotal = document.getElementById("cart-total");
+
+        //we are accessing the cart element that we stored in local storage in index.html
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        //a function rendercart is created where 
+        function renderCart() {
+            //we set the intial html as null and total also zero
+            cartItemsContainer.innerHTML = "";
+            let total = 0;
+
+            //since cart is an array we apply foreach loop on each item calculate total and also add the item into cart-items as html
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+
+                //removeitem function is called when btn is clicked 
+                cartItemsContainer.innerHTML += `
+      <div class="cart-item">
+       
+        <div>
+          <h4>${item.name}</h4>
+          <p>Price: ₹${item.price}</p>
+          <p>Qty: ${item.quantity}</p>
+          <button onclick="removeItem(${index})">Remove</button>
+        </div>
+      </div>
+    `;
+            });
+
+            //after foreach loop is over we make text of carttotal to the total we claculated
+            cartTotal.innerText = "Total: ₹" + total;
+        }
+
+        //here function removeitem splices the index on which we clicked remove and again store the item into localstorafe 
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            //here rendercart is called cuz the new cart as to be fetched on the page
+            renderCart();
+        }
+        renderCart();
+
+    </script>
+</body>
+
+</html>
